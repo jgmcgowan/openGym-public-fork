@@ -1,7 +1,10 @@
+@AGENTS.md
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 For people, the same map with diagrams is [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Fork handoff for any assistant (how to run and deploy this checkout, safety, the shared work log) is [AGENTS.md](AGENTS.md). Current state is [HANDOFF.md](HANDOFF.md). The sections below are the upstream project map; keep them when you change the fork notes.
 
 ## What this is
 
