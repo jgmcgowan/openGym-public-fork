@@ -129,7 +129,7 @@ App version in this tree is 1.4.3 (`frontend/package.json`, `api/package.json`, 
 
 After you finish work in this repo:
 
-1. Append one row to the AI Work Log sheet: <https://docs.google.com/spreadsheets/d/1GTAvxzWC9WTI0OlMeLOr5r9XMrOpVxD9L9zvkg9A-R8/edit>. It lives in the AI Handoff Drive folder: <https://drive.google.com/drive/folders/1XZgP7LuY1NBkVozQv0J9CyFt7my3VUPX>. Columns: date (ET), assistant, project (`openGym`), repo / URL, what changed, status (`Done`, `In progress`, or `Blocked`), next step, PR / link, notes. Only append. Do not delete or rewrite other rows, and do not drop the Projects or Lists tabs.
+1. Append one row to the AI Work Log sheet: <https://docs.google.com/spreadsheets/d/1GTAvxzWC9WTI0OlMeLOr5r9XMrOpVxD9L9zvkg9A-R8/edit>. It lives in the AI Handoff Drive folder: <https://drive.google.com/drive/folders/1XZgP7LuY1NBkVozQv0J9CyFt7my3VUPX>. Columns: date (ET), assistant, project (`openGym`), repo / URL, what changed, status (`Done`, `In progress`, or `Blocked`), next step, PR / link, notes. Only append. Do not delete or rewrite other rows, and do not drop the Projects or Lists tabs. A Drive write that replaces the whole file wipes those tabs. If that is the only write you have, do not use it. Put the row in [HANDOFF.md](HANDOFF.md) for a person to paste.
 2. Update [HANDOFF.md](HANDOFF.md) so the next assistant can see the current state, what just changed, what is still open, and the next step.
 3. If you do not have access to the sheet, say so in the pull request and in HANDOFF.md. Do not invent a log entry.
 

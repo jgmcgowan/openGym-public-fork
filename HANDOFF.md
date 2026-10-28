@@ -12,7 +12,7 @@ How to work in the repo: [AGENTS.md](AGENTS.md). The longer code map is [CLAUDE.
   - `5fdb229fe` (2026-10-27) README: openGym-styled Buy me a coffee and Ko-fi badges, the Trendshift daily and weekly ranks back at the top
   - `bb60bbe5e` (2026-10-27) README: a new top (hero with the app on three phones, light and dark, one row of badges, App Store, Android and Self-host buttons), Trendshift badges moved to Community
 - App version in the tree is **1.4.3** (`frontend/package.json`, `api/package.json`, `api/openapi.yaml`, `helm/Chart.yaml`). Upstream release `v1.4.3` ("the Halloween update") was published 2026-10-26. This fork has no GitHub releases. [CHANGELOG.md](CHANGELOG.md) has no `## Unreleased` section; the top section is `v1.4.3 (2026-10-26)`.
-- Issues are disabled on this fork. There were no open pull requests on it when this file was written.
+- Issues are disabled on this fork. Handoff docs are in pull request [#1](https://github.com/jgmcgowan/openGym/pull/1).
 - Live site, from the operator: <https://opengym.devop.work>, James's OVH VPS, prebuilt GHCR images behind Caddy, directory `/opt/apps/opengym`. `docker-compose.yml` still pulls `ghcr.io/duartesantos8/opengym-api:latest` and `ghcr.io/duartesantos8/opengym-web:latest`. The fork's publish workflow would tag `ghcr.io/jgmcgowan/opengym-{api,web}` instead. Which image the VPS is running is not recorded in the repo.
 - Assistant entry points added in this change: [AGENTS.md](AGENTS.md), this file, and a pointer at the top of [CLAUDE.md](CLAUDE.md). The rest of `CLAUDE.md` is the upstream project map and was left in place.
 
@@ -33,12 +33,25 @@ v1.4.3 headlines, from [CHANGELOG.md](CHANGELOG.md) and [ROADMAP.md](ROADMAP.md)
 - Later milestones in the same file, not started here: v1.4.5 Google Play, F-Droid, and integrations; v1.4.6 Wear OS and Health Connect; v1.4.7 progression engine and circuits.
 - `.github/workflows/test.yml` runs `check-source-strings.mjs` as report-only because of a known backlog of demo strings. `--strict` fails the process when a `t()` key is missing from every pack.
 - Live `.env`, Caddy config, and `/opt/apps/opengym` were not verified from this environment. Do not treat [AGENTS.md](AGENTS.md) deployment notes as a copy of the server.
+- The AI Handoff folder has a leftover spreadsheet named "AI Work Log (append test, delete me)": <https://docs.google.com/spreadsheets/d/1lOXP3_VGUojiXegAIqhmvKdrbQEl5NNpRxY8O8HVDPs/edit>. It is a copy made to see whether a Drive write could append one row. That write replaced the copy and left a single tab. The live AI Work Log was not edited. Trash the copy in Drive.
 - `check-source-strings` and the catalogue generators are easy to forget after a UI or exercise change. CI on a code PR will catch a stale generated file.
+
+## AI Work Log row to append
+
+The live sheet was not edited. Paste this as a new row on the AI Work Log tab only. Columns, in order:
+
+| Date (ET) | Assistant | Project | Repo / URL | What changed | Status | Next step | PR / link | Notes |
+|---|---|---|---|---|---|---|---|---|
+| 2026-10-27 | Cursor | openGym | https://github.com/jgmcgowan/openGym | Added AGENTS.md and HANDOFF.md, and pointed CLAUDE.md at AGENTS.md. Docs only. | Done | Fast-forward the two upstream README commits if this fork should match parent main. | https://github.com/jgmcgowan/openGym/pull/1 | Sheet not edited from the agent. A full-file Drive replace drops the other tabs. |
+
+```text
+2026-10-27	Cursor	openGym	https://github.com/jgmcgowan/openGym	Added AGENTS.md and HANDOFF.md, and pointed CLAUDE.md at AGENTS.md. Docs only.	Done	Fast-forward the two upstream README commits if this fork should match parent main.	https://github.com/jgmcgowan/openGym/pull/1	Sheet not edited from the agent. A full-file Drive replace drops the other tabs.
+```
 
 ## Next steps
 
-1. Land the assistant handoff (this file, `AGENTS.md`, the `CLAUDE.md` pointer) and append a row to the [AI Work Log](https://docs.google.com/spreadsheets/d/1GTAvxzWC9WTI0OlMeLOr5r9XMrOpVxD9L9zvkg9A-R8/edit).
+1. Paste the row above into the [AI Work Log](https://docs.google.com/spreadsheets/d/1GTAvxzWC9WTI0OlMeLOr5r9XMrOpVxD9L9zvkg9A-R8/edit) tab. Leave the Projects and Lists tabs as they are.
 2. If this fork should match upstream `main`, fast-forward the two README commits. They do not change the app. Confirm the diff before merging.
 3. Leave v1.4.4 feature work on upstream unless someone asks for it here. The working plan is [ROADMAP.md](ROADMAP.md) and the upstream milestones.
 4. A change to the live site means the VPS at `/opt/apps/opengym` (Caddy in front, prebuilt GHCR images). Get the real `.env` and image tags from the machine before changing them. Back up `data/` first.
-5. After later work, update this file and append the AI Work Log. Only append. Do not rewrite other rows.
+5. After later work, update this file. Append the AI Work Log only when the write is a real row append. A replace of the whole file drops the other tabs, so put the row here instead.
