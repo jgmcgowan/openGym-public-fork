@@ -29,8 +29,8 @@ web/        Dockerfile and nginx.conf.template (serves the app, proxies /api).
 catalogue/  Exercise database: exercises/<id>.json, i18n/, licensed 180 px media/.
 mcp/        Optional stdio MCP server. Reads DATA_DIR. Its one write tool saves through the API.
 scripts/    Build, CI, and release helpers (scripts/README.md).
-website/    opengym.ch, plain HTML/CSS/JS, deployed separately from this fork's VPS.
-helm/, kubernetes/, contrib/nix/   Other deploy shapes. Examples, not the live VPS.
+website/    opengym.ch, plain HTML/CSS/JS, deployed separately from this fork.
+helm/, kubernetes/, contrib/nix/   Other deploy shapes. Examples, not the live deployment.
 docs/       Guides indexed in docs/README.md. docs/dev/ holds feature design notes.
 ```
 
@@ -103,16 +103,16 @@ CI also runs `npm run test:fatigue-probe` in `frontend/`, builds and boots both 
 
 ## Deployment
 
-This fork runs self-hosted at <https://opengym.devop.work> on James's OVH VPS, using prebuilt GHCR Docker images behind Caddy, from `/opt/apps/opengym`. That is operator knowledge. The VPS, the Caddyfile, and the live `.env` are not in this repo, and this checkout was not used to inspect the machine. Do not invent those files or the values in them.
+James runs a self-hosted copy of this fork. How and where it is deployed is kept outside this public repo, along with its proxy config and live `.env`. Do not invent those files or the values in them, and do not add server details here.
 
 What the repo does specify:
 
 - `docker-compose.yml` names `ghcr.io/duartesantos8/opengym-api:latest` and `ghcr.io/duartesantos8/opengym-web:latest` (upstream images, amd64 and arm64). The same tags are also published to `registry.gitlab.com/duartesantos8/opengym/{api,web}`. `docker compose up -d --build` builds from the local tree instead. The coach image is opt-in: `API_TARGET=coach docker compose up --build api`.
-- `.github/workflows/docker-publish.yml` on this fork would push `ghcr.io/jgmcgowan/opengym-api` and `ghcr.io/jgmcgowan/opengym-web` (`edge` on `main`, and `latest` plus semver tags when a GitHub release is published). The compose file is not pointed at those names. Nothing in the repo confirms which tag the VPS is running. This fork has no GitHub releases of its own.
+- `.github/workflows/docker-publish.yml` on this fork would push `ghcr.io/jgmcgowan/opengym-api` and `ghcr.io/jgmcgowan/opengym-web` (`edge` on `main`, and `latest` plus semver tags when a GitHub release is published). The compose file is not pointed at those names. Nothing in the repo confirms which tag the live deployment runs. This fork has no GitHub releases of its own.
 - Updating a normal install, from [SECURITY.md](SECURITY.md), is `git pull && docker compose pull && docker compose up -d`. Only the latest upstream release is supported. There is no LTS branch.
 - Passkeys bind to the exact `RP_ID` and need `ORIGIN` to be the HTTPS URL the browser uses. `.env.example` documents every variable. The generic Caddy snippet in [docs/SELF_HOSTING.md](docs/SELF_HOSTING.md) is a reverse proxy to `localhost:8080` (`WEB_PORT`). The live site's proxy config is not checked in.
 - The API stores users, credentials, and sessions in `./data` (`DATA_DIR=/data` in the container): `db.json`, `state-<uid>.json`, `uploads/`, the session secret, and `vapid.json` (Web Push keys, generated on first run). Back up `data/`. `./coach-auth` is a provider credential cache kept outside `data/` so a `data/` tarball does not include a live refresh token.
-- `helm/` and `kubernetes/` pin `ghcr.io/duartesantos8/opengym-{api,web}:1.4.3`. They are examples. They are not the OVH layout.
+- `helm/` and `kubernetes/` pin `ghcr.io/duartesantos8/opengym-{api,web}:1.4.3`. They are examples, not the live layout.
 - `.github/workflows/mirror.yml` pushes `main` and `v*` tags to GitLab only when `github.repository` is `DuarteSantos8/openGym`. It does not run for this fork. Do not push or merge on the GitLab mirror.
 
 App version in this tree is 1.4.3 (`frontend/package.json`, `api/package.json`, `api/openapi.yaml`, Helm `appVersion`). Upstream tagged `v1.4.3` on 2026-10-26. See [HANDOFF.md](HANDOFF.md) for how far this fork is from that upstream `main`.
@@ -123,14 +123,14 @@ App version in this tree is 1.4.3 (`frontend/package.json`, `api/package.json`, 
 - Keep changes on a branch and open a pull request. Do not push straight to `main`.
 - Do not add or replace anything in `catalogue/media/`. Those files are licensed from Gym visual, 180 px at most, and `scripts/catalogue/check-media.mjs` enforces that in CI, the web image, and a self-hosted server. Never commit, upload, or serve a larger size, and never feed the media to an AI tool.
 - Do not put passwords, tokens, or other secrets in commit messages, [HANDOFF.md](HANDOFF.md), or the AI Work Log.
-- Do not mention James's employer on the public site or in this public repo.
+- This repo is public. Do not add personal details about James, server details, or links to private documents.
 
 ## Shared AI log
 
 After you finish work in this repo:
 
-1. Append one row to the AI Work Log sheet: <https://docs.google.com/spreadsheets/d/1GTAvxzWC9WTI0OlMeLOr5r9XMrOpVxD9L9zvkg9A-R8/edit>. It lives in the AI Handoff Drive folder: <https://drive.google.com/drive/folders/1XZgP7LuY1NBkVozQv0J9CyFt7my3VUPX>. Columns: date (ET), assistant, project (`openGym`), repo / URL, what changed, status (`Done`, `In progress`, or `Blocked`), next step, PR / link, notes. Only append. Do not delete or rewrite other rows, and do not drop the Projects or Lists tabs. A Drive write that replaces the whole file wipes those tabs. If that is the only write you have, do not use it. Put the row in [HANDOFF.md](HANDOFF.md) for a person to paste.
+1. Append one row to James's AI Work Log sheet (he shares the link privately; never write it here). Columns: date (ET), assistant, project (`openGym`), repo / URL, what changed, status (`Done`, `In progress`, or `Blocked`), next step, PR / link, notes. Only append. Do not delete or rewrite other rows, and do not drop the Projects or Lists tabs. A Drive write that replaces the whole file wipes those tabs. If that is the only write you have, do not use it. Put the row in [HANDOFF.md](HANDOFF.md) for a person to paste.
 2. Update [HANDOFF.md](HANDOFF.md) so the next assistant can see the current state, what just changed, what is still open, and the next step.
 3. If you do not have access to the sheet, say so in the pull request and in HANDOFF.md. Do not invent a log entry.
 
-Read `README - Start Here` in that Drive folder before the first edit. The GitHub repo stays the source of truth for code. The sheet is the shared journal.
+Read James's `README - Start Here` handoff doc before the first edit. The GitHub repo stays the source of truth for code. The sheet is the shared journal.
